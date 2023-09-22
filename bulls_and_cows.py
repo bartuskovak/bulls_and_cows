@@ -9,7 +9,7 @@ from random import randint
 import math
 
 def choose_number():
-     number = str(randint(1023,9876))
+     number = "1234" #str(randint(1023,9876))
      for element in number:
          if number.count(element) > 1:
            return choose_number()
@@ -28,52 +28,65 @@ def number_check():
         raise ValueError ("You can only use numbers.")
     return your_number
     
-def cow_counter(secret_number, number_guess):
-    cows = 0
+def cow_counter(secret_number, number_guess, bulls):
+    position = 0
+    cnt = 0
     for element in secret_number:
-        if element in number_guess:
-            cows += 1
-    if cows == 1:
-        print("1 cow")
-    else:
-        print(cows, "cows")
+        if element in number_guess and bulls[position] == 0:
+            cnt += 1
+        position += 1 
+    return cnt
+    
 
 def bull_counter(secret_number, number_guess):
-    position = -1
-    bulls = 0
+    position = 0
+    bulls = [0,0,0,0]
     for element in secret_number:
-        position += 1
         if element == number_guess[position]:
-            bulls += 1
-    if bulls == 1:
-        print("1 bull")
-    elif bulls != 1 and bulls !=4:
-        print(bulls, "bulls") 
+            bulls[position] = 1
+        position += 1
+    return bulls
+      
+    
 
 def game(secret_number, number_guess):
     attempts = 0
     while secret_number != number_guess:
         attempts += 1
-        bull_counter(secret_number, number_guess), cow_counter(secret_number, number_guess)
+        
+        bulls = bull_counter(secret_number, number_guess)
+        bullsCnt = bulls.count(1)
+        cows = cow_counter(secret_number, number_guess, bulls)
+
         print("-"*50)
-        number_check()
-    else:
-        print("Correct, you've guessed right number in", attempts, "guesses!")
+        bullsText = ""
+        if bullsCnt == 1:
+            bullsText = "1 bull"
+        elif bullsCnt != 1 and bullsCnt != 4:
+            bullsText = str(bullsCnt) + " bulls" 
+        cowsText = ""
+        if cows == 1:
+            cowsText = "1 cow"
+        else:
+            cowsText = str(cows) +" cows"
+        print(f"{bullsText}, {cowsText}")
+
+        number_guess = number_check()
+    print("Correct, you've guessed right number in", attempts, "guesses!")
 
 
 
 ############################################
+if __name__ == "__main__":
+    print("Hi there!")
+    print("-"*50)
+    print("I've generated a random 4 digit number for you.")
+    print("Let's play a bulls and cows game.")
+    print("-"*50)
 
-print("Hi there!")
-print("-"*50)
-print("I've generated a random 4 digit number for you.")
-print("Let's play a bulls and cows game.")
-print("-"*50)
-
-secret_number = choose_number()
-number_guess = number_check()
-game(secret_number, number_guess)
-
+    secret_number = choose_number()
+    number_guess = number_check()
+    game(secret_number, number_guess)
 
 
 
