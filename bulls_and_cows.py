@@ -28,8 +28,6 @@ def number_check():
         raise ValueError ("You can only use numbers.")
     return your_number
     
-
-
 def cow_counter(secret_number, number_guess):
     cows = 0
     for element in secret_number:
@@ -40,6 +38,27 @@ def cow_counter(secret_number, number_guess):
     else:
         print(cows, "cows")
 
+def bull_counter(secret_number, number_guess):
+    position = -1
+    bulls = 0
+    for element in secret_number:
+        position += 1
+        if element == number_guess[position]:
+            bulls += 1
+    if bulls == 1:
+        print("1 bull")
+    elif bulls != 1 and bulls !=4:
+        print(bulls, "bulls") 
+
+def game(secret_number, number_guess):
+    attempts = 0
+    while secret_number != number_guess:
+        attempts += 1
+        bull_counter(secret_number, number_guess), cow_counter(secret_number, number_guess)
+        print("-"*50)
+        number_check()
+    else:
+        print("Correct, you've guessed right number in", attempts, "guesses!")
 
 
 
@@ -53,9 +72,7 @@ print("-"*50)
 
 secret_number = choose_number()
 number_guess = number_check()
-cow_counter(secret_number, number_guess)
-
-
+game(secret_number, number_guess)
 
 
 
