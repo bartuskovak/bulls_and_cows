@@ -9,7 +9,7 @@ from random import randint
 import math
 
 def choose_number():
-     number = "1234" #str(randint(1023,9876))
+     number = str(randint(1023,9876))
      for element in number:
          if number.count(element) > 1:
            return choose_number()
@@ -30,12 +30,12 @@ def number_check():
     
 def cow_counter(secret_number, number_guess, bulls):
     position = 0
-    cnt = 0
+    cows = 0
     for element in secret_number:
         if element in number_guess and bulls[position] == 0:
-            cnt += 1
+            cows += 1
         position += 1 
-    return cnt
+    return cows
     
 
 def bull_counter(secret_number, number_guess):
@@ -55,28 +55,25 @@ def game(secret_number, number_guess):
         attempts += 1
         
         bulls = bull_counter(secret_number, number_guess)
-        bullsCnt = bulls.count(1)
+        bulls_cnt = bulls.count(1)
         cows = cow_counter(secret_number, number_guess, bulls)
 
         print("-"*50)
         bullsText = ""
-        if bullsCnt == 1:
-            bullsText = "1 bull"
-        elif bullsCnt != 1 and bullsCnt != 4:
-            bullsText = str(bullsCnt) + " bulls" 
-        cowsText = ""
+        if bulls_cnt == 1:
+            bulls_text = "1 bull"
+        elif bulls_cnt != 1 and bulls_cnt != 4:
+            bulls_text = str(bulls_cnt) + " bulls" 
+        cows_text = ""
         if cows == 1:
-            cowsText = "1 cow"
+            cows_text = "1 cow"
         else:
-            cowsText = str(cows) +" cows"
-        print(f"{bullsText}, {cowsText}")
+            cows_text = str(cows) +" cows"
+        print(f"{bulls_text}, {cows_text}")
 
         number_guess = number_check()
     print("Correct, you've guessed right number in", attempts, "guesses!")
 
-
-
-############################################
 if __name__ == "__main__":
     print("Hi there!")
     print("-"*50)
