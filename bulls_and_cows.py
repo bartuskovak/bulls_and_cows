@@ -6,39 +6,49 @@ discord: bartuskovak
 """
 
 from random import randint
-import math
 
-def choose_number():
+line = ("-"*50)
+
+def choose_number() -> str:
+"""
+description:
+----------
+Choose random four digit number
+between 1023 and 9876 and check,
+if no digit occurs twice in a number.
+"""
      number = str(randint(1023,9876))
      for element in number:
          if number.count(element) > 1:
            return choose_number()
      return number
 
-def number_check():
+def number_check() -> str:
+"""
+Let user enter a number and check,
+if it is four digit, every digit is 
+here only once, and it does not start
+with 0,
+"""
     your_number = input("Enter a number:")
-    print("-"*50)
-    if len(your_number) != 4:
+    print(line)
+    if len(your_number) =!= 4:
         raise ValueError ("Enter a four digit number.")
     elif your_number[0] == "0":
         raise ValueError ("Number cannot start with 0.")
+    elif number.count(element) > 1:
+        raise ValueError ("Use every digit only once")
     elif your_number.isnumeric():
         print(">>>", your_number)
     else:
         raise ValueError ("You can only use numbers.")
     return your_number
-    
-def cow_counter(secret_number, number_guess, bulls):
-    position = 0
-    cows = 0
-    for element in secret_number:
-        if element in number_guess and bulls[position] == 0:
-            cows += 1
-        position += 1 
-    return cows
-    
 
-def bull_counter(secret_number, number_guess):
+def bull_counter(secret_number: str, number_guess: str) -> int:
+"""
+Count bulls (one bull for every correctly
+guessed digit).
+"""
     position = 0
     bulls = [0,0,0,0]
     for element in secret_number:
@@ -46,10 +56,26 @@ def bull_counter(secret_number, number_guess):
             bulls[position] = 1
         position += 1
     return bulls
-      
     
+def cow_counter(secret_number: str, number_guess, bulls: str) -> int:
+"""
+Count cows (one cow for every correct digit,
+but in a wrong place).
+"""
+    position = 0
+    cows = 0
+    for element in secret_number:
+        if element in number_guess and bulls[position] == 0:
+            cows += 1
+        position += 1 
+    return cows
 
-def game(secret_number, number_guess):
+def game(secret_number: str, number_guess: str) -> str:
+"""
+Tells what is your score.
+"""
+    secret_number = choose_number()
+    number_guess = number_check()
     attempts = 0
     while secret_number != number_guess:
         attempts += 1
@@ -58,7 +84,7 @@ def game(secret_number, number_guess):
         bulls_cnt = bulls.count(1)
         cows = cow_counter(secret_number, number_guess, bulls)
 
-        print("-"*50)
+        print(line)
         bullsText = ""
         if bulls_cnt == 1:
             bulls_text = "1 bull"
@@ -76,13 +102,11 @@ def game(secret_number, number_guess):
 
 if __name__ == "__main__":
     print("Hi there!")
-    print("-"*50)
+    print(line)
     print("I've generated a random 4 digit number for you.")
     print("Let's play a bulls and cows game.")
-    print("-"*50)
+    print(line)
 
-    secret_number = choose_number()
-    number_guess = number_check()
     game(secret_number, number_guess)
 
 
